@@ -1,16 +1,10 @@
 import UIKit
 
 
-var aYear =  1200
+var studentsAndScores = ["Amy": 2, "James": 10, "Helen": 1]
 
-func isLeap(year: Int) {
-    if year%4 == 0 && year%100 != 0 {
-      print("YES")
-  } else if year%4 == 0 && year%100 == 0 && year%400 == 0 {
-      print("YES")
-  } else {
-      print("NO")
-  }
+func highestScore(scores: [String: Int]) {
+  print(studentsAndScores.values.max()!)
 }
 
-isLeap(year: aYear);
+highestScore(scores:studentsAndScores)
