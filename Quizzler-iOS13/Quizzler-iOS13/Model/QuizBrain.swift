@@ -34,19 +34,17 @@ struct QuizBrain{
         return Float(quizNumber+1)/Float(quiz.count)
     }
     
-    mutating func goNextQuiz()  {
+    mutating func goNextQuiz()->Bool  {
         if quizNumber + 1 < quiz.count{
             self.quizNumber += 1
+            return true
         } else {
-//            let alert = UIAlertController(title: "문제끝!", message: "user score: \(score)!", preferredStyle: UIAlertController.Style.alert)
-////
-//            let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
-//            alert.addAction(action)
-//            self.present(alert, animated: true)
-            self.quizNumber = 0
-            self.score = 0
+            return false
         }
     }
     
-    
+    mutating func resetQuiz() {
+        self.quizNumber = 0
+        self.score = 0
+    }
 }

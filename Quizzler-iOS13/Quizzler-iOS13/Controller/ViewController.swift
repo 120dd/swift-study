@@ -10,47 +10,44 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    //View
     @IBOutlet weak var questionLable: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
     
+    //Controller
     var quizBrain = QuizBrain()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
         progressBar.progress = 0
-        // Do any additional setup after loading the view.
     }
+    
+    //
     @IBAction func answerBtnPressed(_ sender: UIButton) {
         
         let userCorrect = quizBrain.checkAnswer(sender.currentTitle!)
+        updatePageByAnswer(isCorrect: userCorrect, sender: sender)
         
-        if userCorrect {
+        if !quizBrain.goNextQuiz() {
+            let alert = UIAlertController(title: "문제끝!", message: "user score: \(quizBrain.score)!", preferredStyle: UIAlertController.Style.alert)
+            
+            let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+            alert.addAction(action)
+            self.present(alert, animated: true)
+            quizBrain.resetQuiz()
+        }
+        updateUI()
+    }
+    
+    func updatePageByAnswer(isCorrect: Bool, sender:UIButton) {
+        if isCorrect {
             sender.backgroundColor = UIColor.green
-//            quizBrain.score += 1
         } else {
             sender.backgroundColor = UIColor.red
         }
-        quizBrain.goNextQuiz()
-        updateUI()
-//        if quizBrain.quizNumber + 1 < quizBrain.quiz.count{
-////        if quizNumber + 1 < quiz.count{
-//            quizBrain.quizNumber += 1
-//            updateUI()
-//        } else {
-//            let alert = UIAlertController(title: "문제끝!", message: "user score: \(quizBrain.score)!", preferredStyle: UIAlertController.Style.alert)
-//
-//            let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
-//            alert.addAction(action)
-//            self.present(alert, animated: true)
-//
-//            quizBrain.quizNumber = 0
-//            quizBrain.score = 0
-//            updateUI()
-//        }
     }
     
     func updateUI () {
@@ -61,6 +58,5 @@ class ViewController: UIViewController {
         questionLable.text = quizBrain.getQuizText()
         progressBar.progress = quizBrain.getProgressData()
     }
-    
 }
 
